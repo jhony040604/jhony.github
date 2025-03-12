@@ -1,0 +1,1223 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COCA - Soporte en tiempo real para tus clientes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Header section */
+        .header {
+            background-color: #086456;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: rgb(240, 242, 240);
+            padding: 15px 40px;
+            position: relative;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 25px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-right: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .login-btn {
+            background: transparent;
+            color: white;
+            border: none;
+            margin-right: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .register-btn {
+            background-color: #99E6DA;
+            color: #086456;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .dropdown {
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: fit-content;
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 150px;
+        }
+        
+        .dropdown-arrow {
+            margin-left: 10px;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 36px;
+            margin: 20px 0;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            color: rgb(246, 237, 237);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .chatting-btn {
+            background-color: #FFD600;
+            color: black;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .learn-btn {
+            background-color: transparent;
+            color: white;
+            border: 1px solid #FFD600;
+            border-radius: 20px;
+            padding: 10px 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        /* Floating circles - UPDATED */
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            overflow: hidden; /* Ensures images stay within circle */
+            animation: float 3s ease-in-out infinite; /* Animation for floating effect */
+        }
+        
+        /* Animation for floating effect */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Image styling inside circles */
+        .circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Makes images cover the circle area nicely */
+            opacity: 0.9; /* Slightly transparent to blend with circle color */
+            transition: transform 0.3s ease; /* Smooth hover effect */
+        }
+        
+        /* Hover effect for images */
+        .circle:hover img {
+            transform: scale(1.1);
+        }
+        
+        .circle-red {
+            background-color: #FF5733;
+            top: 40px;
+            left: 20%;
+            animation-delay: 0s;
+        }
+        
+        .circle-yellow {
+            background-color: #FFC300;
+            top: 150px;
+            right: 30%;
+            animation-delay: 0.5s;
+        }
+        
+        .circle-purple {
+            background-color: #8A2BE2;
+            bottom: 30px;
+            right: 30%;
+            animation-delay: 1s;
+        }
+        
+        .footer-contacts {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 40px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-icon {
+            width: 70px; /* Aumenté el tamaño para que sea más visible */
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 30px;
+            overflow: hidden;
+        }
+
+        .contact-icon img {
+            width: 70%; /* Ajusta la imagen para que sea más visible */
+            height: 100%;
+            object-fit: contain; /* Asegura que la imagen no se deforme */
+        }
+
+        /* Integration section */
+        .integration-section {
+            padding: 50px 40px;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        
+        .integration-icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+        
+        .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+        }
+        
+        /* Messaging section */
+        .messaging-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px 50px;
+            background-color: white;
+        }
+        
+        .messaging-text {
+            width: 45%;
+        }
+        
+        .messaging-text h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .feature-dot {
+            width: 16px;
+            height: 16px;
+            background-color: #005a41;
+            border-radius: 50%;
+            margin-right: 10px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        
+        .messaging-image {
+            width: 45%;
+        }
+        
+        .chat-interface {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Video chat section */
+        .video-section {
+            padding: 10px 20px 30px;
+            background-color: white;
+        }
+        
+        .video-section h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .video-container {
+            position: relative;
+            margin-top: 30px;
+        }
+        
+        .video-image {
+            width: 30%;
+            border-radius: 10px;
+        }
+        
+        .chat-bubble {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background-color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+        
+        /* Orders section */
+        .orders-section {
+            background-color: #0eb434b6;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: white;
+            padding: 15px 40px;
+            position: relative;
+            color: white;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .orders-text {
+            width: 45%;
+        }
+        
+        .orders-text h2 {
+            font-size: 24px;
+            color: rgb(230, 241, 236);
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .orders-text p {
+            margin-bottom: 30px;
+            color: rgba(235, 241, 238, 0.847);
+            font-size: 14px;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .orders-image {
+            width: 45%;
+        }
+        
+        .notification-interface {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Estilos de la segunda página */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto; 
+            padding: 20px;
+        }
+        
+        /* Hero Section page 2 */
+        .hero-page2 {
+            background-color: #f0f4f3;
+            color: rgb(19, 143, 10);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .hero-container {
+            background-color: #67cf57;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+        }
+        
+        .hero-page2 h1 {
+            font-size: 52px;
+            margin-bottom: 40px;
+            line-height: 1.2;
+        }
+        
+        .contact-info-page2 {
+            display: flex;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-item-page2 {
+            display: flex;
+            align-items: center;
+            margin-right: 30px;
+            margin-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 50px;
+        }
+        
+        .icon-page2 {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+        
+        .button {
+            display: inline-flex;
+            align-items: center;
+            background-color: hsl(102, 74%, 46%);
+            color: #000;
+            font-weight: bold;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .button .arrow {
+            margin-left: 10px;
+        }
+        
+        /* Interface Section */
+        .interface {
+            background: #f0f9ff;
+            padding: 50px 0;
+        }
+        
+        .interface-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .interface-content {
+            width: 48%;
+            min-width: 320px;
+        }
+        
+        .interface-image {
+            width: 48%;
+            min-width: 320px;
+            position: relative;
+        }
+        
+        .dropdown-page2 {
+            background: #333;
+            color: rgb(238, 247, 242);
+            padding: 10px 15px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .dropdown-page2 svg {
+            color: #040404;
+            font-size: 22px;
+            margin-left: 5px;
+        }
+        
+        h2 {
+            color: #040404;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            color: #040404;
+            margin-bottom: 20px;
+        }
+        
+        .cta-button {
+            background: #00055a;
+            color: rgb(252, 248, 248);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+        }
+        
+        .chat-window {
+            background: rgb(40, 159, 66);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 15px;
+            width: 100%;
+        }
+        
+        .chat-bubble-interface {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .user-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e8f0eb;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        
+        .message {
+            background: #f0f0f0;
+            padding: 8px 12px;
+            border-radius: 18px;
+            max-width: 70%;
+        }
+        
+        .agent .message {
+            background: #f44242;
+            color: white;
+        }
+        
+        /* Testimonials section */
+        .testimonials {
+            padding: 50px 0;
+            text-align: center;
+            background: rgb(48, 145, 100);
+        }
+        
+        .testimonials h2 {
+            margin-bottom: 30px;
+        }
+        
+        .testimonials-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .testimonial {
+            width: 30%;
+            min-width: 300px;
+            margin: 0 auto 20px;
+            text-align: left;
+        }
+        
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #eaefed;
+            margin-right: 15px;
+        }
+        
+        .testimonial-stars {
+            color: #ffc107;
+            margin-top: 10px;
+        }
+        
+        /* Pricing section */
+        .pricing {
+            padding: 50px 0;
+            text-align: center;
+            background: #f5f5f5;
+        }
+        
+        .pricing-tabs {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .pricing-tab {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        
+        .pricing-tab:first-child {
+            border-radius: 5px 0 0 5px;
+            background-color: #2da36a;
+            color: white;
+        }
+        
+        .pricing-tab:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .pricing-cards {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .pricing-card {
+            width: 30%;
+            min-width: 300px;
+            margin: 20px auto;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+            position: relative;
+            background-color: #2da36a;
+        }
+        
+        .pricing-card.featured {
+            border: none;
+            background: #005a41;
+            color: white;
+            padding-top: 40px;
+        }
+        
+        .featured-label {
+            background: #ffd500;
+            color: rgb(12, 12, 12);
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .price {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .price small {
+            font-size: 16px;
+            font-weight: normal;
+        }
+        
+        .feature-icon {
+            width: 20px;
+            margin-right: 10px;
+            color: #36c12c;
+        }
+        
+        .featured .feature-icon {
+            color: rgb(15, 14, 14);
+        }
+        
+        .chat-tools {
+            background-color: #2da36a;
+            border-radius: 15px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 120px;
+            margin: 20px auto;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .chat-tool {
+            color: rgb(187, 19, 47);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1000px) {
+            
+            .hero-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-info-page2 {
+                justify-content: center;
+            }
+            
+            .interface-container {
+                flex-direction: column;
+            }
+            
+            .interface-content, .interface-image {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+            
+            .testimonial, .pricing-card {
+                background-color: #2da36a;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PARTE 1: Contenido de "pagina para presentar nueva.html" -->
+    
+    <!-- Header section -->
+    <div class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="imagenes/iamgen letra c.png" alt="COCA Logo" style="background-color: #FFD600; border-radius: 50%;">
+                <span>COCA</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">For Team</a></li>
+                <li><a href="#">Pricing</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="login-btn">Login</button>
+                <button class="register-btn">Register</button>
+            </div>
+        </nav>
+        
+        <!-- Floating circles with images -->
+        <div class="circle circle-red">
+            <img src="imagenes/image-removebg-preview (20).png" alt="Support feature">
+        </div>
+        <div class="circle circle-yellow">
+            <img src="imagenes/image-removebg-preview (21).png" alt="Communication feature">
+        </div>
+        <div class="circle circle-purple">
+            <img src="imagenes/image-removebg-preview (22).png" alt="Chat feature">
+        </div>
+        
+        <div class="hero">
+            <h1>Provide real-time support through chat for your customers</h1>
+            <p>Great software that allows you to chat from any place at any time without any obstruction</p>
+            
+            <div class="action-buttons">
+                <button class="chatting-btn">Chatting Now</button>
+                <button class="learn-btn">Learn More</button>
+            </div>
+        </div>
+        
+        <div class="footer-contacts">
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <img src="imagenes/image-removebg-preview (18).png" alt="Phone" style="filter: invert(1);">
+                </div>
+                <span>+123 456 789</span>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <img src="imagenes/image-removebg-preview (19).png" alt="Email" style="filter: invert(1);">
+                </div>
+                <span>info@coca.com</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Integration section -->
+    <div class="integration-section">
+        <h3 class="section-title">Effortless integration with your preferred tools</h3>
+        
+        <div class="integration-icons">
+            <img src="imagenes/image-removebg-preview (23).png" alt="Slack" class="icon" style="background-color: #4A154B;">
+            <img src="imagenes/image-removebg-preview (24).png" alt="Visual Studio" class="icon" style="background-color: #0078d7;">
+            <img src="/imagenes/image-removebg-preview (25).png" alt="Spotify" class="icon" style="background-color: #1DB954;">
+            <img src="imagenes/Sign In _ Zoom.jpeg" alt="Zoom" class="icon" style="background-color: #2D8CFF;">
+            <img src="/imagenes/image-removebg-preview (26).png" alt="Teams" class="icon" style="background-color: #6264A7;">
+            <img src="/imagenes/image-removebg-preview (27).png" alt="Bitcoin" class="icon" style="background-color: #F7931A;">
+            <img src="/imagenes/_Evernote - Notes Organizer.jpeg" alt="Evernote" class="icon" style="background-color: #00A82D;">
+            <img src="/imagenes/3f6f5600b4fcf25cb0849cba868b04c2.jpg" alt="Figma" class="icon" style="background-color: #F24E1E;">
+            <img src="/imagenes/51c3a38e24cfb5cb14ecc39dd557d89e.gif" alt="Google" class="icon" style="background-color: #4285F4;">
+            <img src="/imagenes/firefox.jpg" alt="Firefox" class="icon" style="background-color: #FF9500;">
+            <img src="/imagenes/v.jpg" alt="Vimeo" class="icon" style="background-color: #1AB7EA;">
+            <img src="/imagenes/aple.jpg" alt="YouTube" class="icon" style="background-color: #FF0000;">
+        </div>
+    </div>
+    
+    <!-- Messaging section -->
+    <div class="messaging-section">
+        <div class="messaging-text">
+            <h2>Access a unified multi-channel messaging solution in one place</h2>
+            <p>Enable your business to communicate effectively through Live Chat while maintaining a cohesive view across all your web and mobile channels from one place.</p>
+            
+            <ul class="feature-list">
+                <li class="feature-item">
+                    <div class="feature-dot"></div>
+                    <div>Engage in real-time chats with visitors, prospects, and customers</div>
+                </li>
+                <li class="feature-item">
+                    <div class="featur  e-dot"></div>
+                    <div>Easily scale personalized conversations without limitations</div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-dot"></div>
+                    <div>Seamlessly connected and manageable on the go</div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="messaging-image">
+            <img src="imagenes/Captura de pantalla 2025-03-08 012609.png" alt="Chat Interface" class="chat-interface">
+        </div>
+    </div>
+    
+    <!-- Video chat section -->
+    <div class="video-section">
+        <h2>Craft a communication strategy using live video chat</h2>
+        <div style="display: flex; align-items: center;">
+            <div class="video-container">
+                <video controls width="60%">
+                    <source src="/imagenes/video.mp4" type="video/mp4"> 
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        
+            <p style="text-align: left; max-width: 40%; margin-left: 20px; font-size: 20px;">
+                Video conferencing enhances productivity and builds stronger relationships. It is a versatile tool for achieving these goals.
+            </p>
+            
+        </div>
+        
+        
+
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Orders section -->
+    <div class="orders-section">
+        <div class="orders-text">
+            <h2>Get direct orders from your customers</h2>
+            <p>Create an intuitive shopping flow using live chat to drive direct commerce. Our tools make it easy to shop, directly from chat window, making smart product recommendations based on customer behavior and data.</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">9.3K+</div>
+                    <div class="stat-label">ACTIVE<br>USERS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8M+</div>
+                    <div class="stat-label">ORDERS<br>PLACED</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="orders-image">
+            <img src="/imagenes/Captura de pantalla 2025-03-10 235947.png" alt="Notification Interface" class="notification-interface">
+        </div>
+    </div>
+    
+    <!-- PARTE 2: Contenido de "pagina parte 2.html" -->
+    
+    <section class="pricing">
+    <div class="container">
+        <h2>Pricing Plans</h2>
+        <p>Operating costs differ based on message 2K fee costs and geographic location. This is one of our flexible features.</p>
+        
+        <div class="pricing-tabs">
+            <div class="pricing-tab">Monthly</div>
+            <div class="pricing-tab">Yearly</div>
+        </div>
+        
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <h3>STARTER</h3>
+                <div class="price">$50 <small>/month</small></div>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        No Premium
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Basic Support
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        No Server Time
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Design Made
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Component Library
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        All Icons Files
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        One Instance Available
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Chat Support
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        No Update
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Limited Live Help
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="pricing-card featured">
+                <div class="featured-label">MOST POPULAR</div>
+                <h3>GROWTH</h3>
+                <div class="price">$100 <small>/month</small></div>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        No Premium
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Basic Support
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        All Server Time
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Design Made
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Component Library
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        All Icons Files
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        One Instance Available
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Chat Support
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Free Updates
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Customer live help
+                    </li>
+                </ul>
+                
+                <div class="chat-tools">
+                
+                </div>
+            </div>
+            
+            <div class="pricing-card">
+                <h3>PREMIUM</h3>
+                <div class="price">$150 <small>/month</small></div>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        All Premium
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Basic Support
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        All Server Time
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Design Made
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Component Library
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        All Icons Files
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        One Instance Available
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Chat Support
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        All Updates
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Limited Live Help
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<h2 style="text-align: center; font-family: 'Arial', sans-serif; font-size: 28px; margin: 0 auto; width: 100%;">
+    Sign up for your free trial today and
+  </h2>
+  <h3  style="text-align: center; font-family: 'Arial', sans-serif; font-size: 28px; margin: 0 auto; width: 100%;">
+    incorporate live chat on your website.
+  </h3>
+<!-- Testimonials Section (Ahora será la segunda sección) -->
+<section class="testimonials">
+    <div class="container">
+        <h2>Give our users a great experience</h2>
+        <p>Community building is a critical practice that can create the metrics or effectiveness of products serving individuals.</p>
+        
+        <div class="testimonials-container">
+            <div class="testimonial">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar"></div>
+                    <div>
+                        <strong>Amanda Albert</strong><br>
+                        <small>CEO Tiptoe</small>
+                    </div>
+                </div>
+                <p>"They are able to help me startup like never before and very responsive to all our needs"</p>
+                <div class="testimonial-stars">★★★★★ 5.0</div>
+            </div>
+            
+            <div class="testimonial">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar"></div>
+                    <div>
+                        <strong>Farouk Albert</strong><br>
+                        <small>Project Craft Dev</small>
+                    </div>
+                </div>
+                <p>"One out of Jane's sensitive ideas never fails, particularly with their ability. They show me new characters."</p>
+                <div class="testimonial-stars">★★★★★ 5.0</div>
+            </div>
+            
+            <div class="testimonial">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar"></div>
+                    <div>
+                        <strong>Joseph Albert</strong><br>
+                        <small>Business & Office Consultant</small>
+                    </div>
+                </div>
+                <p>"We come alive in many ways when we spot Maxima! The constellation of social, deep, immediate love, electric, etc"</p>
+                <div class="testimonial-stars">★★★★★ 5.0</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Interface Section (Ahora será la tercera sección) -->
+<section class="interface">
+    <div class="container interface-container">
+        <div class="interface-content">
+            <div class="dropdown">
+                
+                Abrir con
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" >
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </div>
+            <h2>An ideal interface for swift, code-free support</h2>
+            <p>The Visual Builder enables you to effortlessly create a responsive, AI-infused with no coding required. Drag and drop design elements, and instantly see them in our staging environment.</p>
+            <p>Experience a modern messaging platform that seamlessly integrates and gets updated for all visitor types and requirements, all within a user-friendly interface.</p>
+            <a href="#" class="cta-button">Learn More</a>
+        </div>
+        
+        <div class="interface-image">
+            <div class="chat-window">
+                <div class="chat-bubble">
+                    <div class="user-icon"></div>
+                    <div class="message">Can you help me install these? I noticed all the modules have broken dependencies.</div>
+                </div>
+                
+                <div class="chat-bubble agent">
+                    <div class="user-icon"></div>
+                    <div class="message">I can help you with that.</div>
+                </div>
+                
+                <div class="chat-bubble">
+                    <div class="user-icon"></div>
+                    <div class="message">Great! Can you give me more details?</div>
+                </div>
+                
+                <div class="chat-bubble agent">
+                    <div class="user-icon"></div>
+                    <div class="message">Yes I'll send you the notes shortly.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Hero Section (Ahora será la última sección) -->
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <h1>Are you prepared to collaborate with us?</h1>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="icon">
+                        <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        1929, Bancangan, Sambit,<br>
+                        Suroboyo, Wakanda
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="icon">
+                        <svg width="24" height="24" fill="white" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        hello@cocapay.co
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta">
+            <a href="#" class="button">
+                Get Start a Project
+                <span class="arrow">→</span>
+            </a>
+        </div>
+    </div>
+</section>
+</body>
+</html>
